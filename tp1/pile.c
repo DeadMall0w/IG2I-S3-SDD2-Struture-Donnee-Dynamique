@@ -48,7 +48,8 @@ int empiler( T_PileD *p, T_Elt e) //renvoie 0 si pile pleine, sinon 1
 
 int depiler( T_PileD *P, T_Elt *pelt) //renvoie 0 si pile vide, sinon 1 
 { 
-    // printf(MAGENTA "\n Depilement..." RESET);
+    
+    // printf(MAGENTA "\n Depilement...\n" RESET);
     int nouvelleTaille; 
     if (!pilevide(P)) { 
         *pelt=P->Elts[--P->nbElts]; 
@@ -68,16 +69,20 @@ int depiler( T_PileD *P, T_Elt *pelt) //renvoie 0 si pile vide, sinon 1
 
 
 
-T_Elt sommet(const  T_PileD *P) // TODO : gérer si la pile est vide
+T_Elt sommet(const  T_PileD *P) // Retourne le sommet de la pile, comportement indéfini si pile vide
 {
-return P->Elts[P->nbElts];
+    if (P->nbElts == 0) {
+        fprintf(stderr, "Erreur : tentative d'accès au sommet d'une pile vide.\n");
+        exit(EXIT_FAILURE);
+    }
+    return P->Elts[P->nbElts - 1];
 }
 
 
 
-int hauteur(const  T_PileD *P)
+int hauteur(const T_PileD *P)
 {
-return 0;
+    return P->nbElts;
 }
 
 

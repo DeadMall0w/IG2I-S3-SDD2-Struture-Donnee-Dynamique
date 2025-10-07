@@ -1,15 +1,36 @@
 #include "pile.h"
 #include "color.h"
+#include <stdarg.h>
 
 #define MAXSTRINGSIZE 50
 
 void translate_to_npi(char s[MAXSTRINGSIZE]);
+void debug(const char *fmt, ...);
+void hanoi(int n, char src, char aux, char dest, int t);
+
+
+T_PileD pile1;
+T_PileD pile2;
+T_PileD pile3;
+
+T_PileD Tpile1;
+T_PileD Tpile2;
+T_PileD Tpile3;
 
 
 
+void debug(const char *fmt, ...) {
+    // va_list args;
+    // va_start(args, fmt);
+    // printf(YELLOW);
+    // vprintf(fmt, args);
+    // printf(RESET);
+    // va_end(args);
+}
 
 int main(){
-    int choix;
+    int choix = 2; // choix par défaut
+    int n = 3;
     printf(BOLDYELLOW "Que voulez vous faire ?\n" RESET);
     printf(YELLOW "1) traduire en notation inverse polonaise\n" RESET);
 
@@ -27,7 +48,25 @@ int main(){
         translate_to_npi(s);
         
         break;
-    
+    case 2:
+        printf("Nombre de disque :");
+
+        scanf("%d", &n);
+
+        initPile(&pile1);
+        initPile(&pile2);
+        initPile(&pile3);
+        
+        
+        for (int i = n; i >= 1; i--) {
+            empiler(&pile1, '0' + i);
+        }
+        hanoi(n, 'A', 'B', 'C', n);
+
+        // afficherHannoi(n);
+        
+
+
     default:
         break;
     }
@@ -35,7 +74,132 @@ int main(){
 
 
 }
+
+void afficherHannoi(const int t){
+    
+    initPile(&Tpile1);
+    initPile(&Tpile2);
+    initPile(&Tpile3);
+    
+    T_Elt e;
+    printf("\n");
+    // printf(YELLOW "\n");
+    // afficherPile(&pile1);
+    // printf("\n" RESET);
+
+    for (int i = 0; i < t; i++)
+    {
+        // printf("|   |   |   |\n");
+        printf("│ ");
+        if (i == t - hauteur(&pile1))
+        {
+            // printf("1");
+            depiler(&pile1, &e);
+            empiler(&Tpile1, e);
+            printf("%c  │", e);
+        }else{
+            printf("   │");
+        }
+
+        printf("│ ");
+        if (i == t - hauteur(&pile2))
+        {
+            depiler(&pile2, &e);
+            empiler(&Tpile2, e);
+
+            printf("%c  │", e);
+        }else{
+            printf("   │");
+        }
+
+        printf("│ ");
+        if (i == t - hauteur(&pile3))
+        {
+            depiler(&pile3, &e);
+            empiler(&Tpile3, e);
+
+            printf("%c  │", e);
+        }else{
+            printf("   │");
+        }
+        printf("\n");
+    }
+
+    printf("└────┴┴────┴┴────┘");
+    while (!pilevide(&Tpile1))
+    {
+        depiler(&Tpile1, &e);
+        empiler(&pile1, e);
+    }
+     
+    while (!pilevide(&Tpile2))
+    {
+        depiler(&Tpile2, &e);
+        empiler(&pile2, e);
+    }
+
+    while (!pilevide(&Tpile3))
+    {
+        depiler(&Tpile3, &e);
+        empiler(&pile3, e);
+    }
+}
+
+
 /*
+Procédure HANOI(n, source, auxiliaire, destination)
+    si n == 1 alors
+        déplacer disque de source → destination
+    sinon
+        HANOI(n-1, source, destination, auxiliaire)
+        déplacer disque de source → destination
+        HANOI(n-1, auxiliaire, source, destination)
+
+*/
+
+T_PileD* findPile(char name) {
+    switch (name) {
+        case 'A': return &pile1;
+        case 'B': return &pile2;
+        case 'C': return &pile3;
+        default: return NULL;
+    }
+}
+
+void hanoi(int n, char src, char aux, char dest, int t) {
+    
+    if (n == 1) {
+        T_PileD *pSrc = findPile(src);
+        T_PileD *pDest = findPile(dest);
+        
+        T_Elt e; 
+        printf("\nDéplacer disque %c de %c vers %c\n", e, src, dest);
+        depiler(pSrc, &e);
+        empiler(pDest, e);
+        
+        afficherHannoi(t);
+        return;
+    }
+
+    hanoi(n-1, src, dest, aux, t);
+    
+    T_PileD *pSrc = findPile(src);
+    T_PileD *pDest = findPile(dest);
+    
+    T_Elt e; 
+    printf("\nDéplacer disque %c de %c vers %c\n", e, src, dest);
+    // printf(YELLOW"PILE : \n");
+    // afficherPile(&pile1);
+    depiler(pSrc, &e);
+    empiler(pDest, e);
+
+    afficherHannoi(t);
+
+    hanoi(n-1, aux, src, dest, t);
+}
+/*
+
+
 
 Tant qu'il y a des caractères à lire sur l’expression à traduire { 
  1. Prendre le caractère suivant de l’expression 
@@ -71,29 +235,32 @@ void translate_to_npi(char s[MAXSTRINGSIZE]){
 
 
     while (s[i] != '\0' && i < MAXSTRINGSIZE-1){
-        // printf("CHAR %c\n", s[i]);
+        debug("\n*** ETAPE : %c\n", s[i]);
         
         if (s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/'){
-            // printf("OPERATEUR \n");
-            // if (pilevide(&pile)){
-            //     // printf("Pile vide !\n");
-            //     empiler(&pile, s[i]);
-            // }else if (sommet(&pile) == '('){
-            //     // printf("Sommet : (\n");
-            //     empiler(&pile, s[i]);
-            // }else if (s[i] == '+' || s[i] == '-'){ //TODO : améliorer la priorité des opérateurs
-            //     // printf("Operateur noon prio \n");
-            //     // printf("PILE ACTUEL :\n ");
-            //     // afficherPile(&pile);
-            //     depiler(&pile, &elt);
-            //     afficherElt(&elt);
-            //     empiler(&pile, s[i]);
-            // }else {
-            //     empiler(&pile, s[i]);
-            // }
+            if (pilevide(&pile)){
+                debug("Pile vide ! -> empilation \n");
+                empiler(&pile, s[i]);
+            }else if (sommet(&pile) == '('){
+                // printf(RED "top : %c \n", sommet(&pile));
+                debug("Sommet = (\n");
+                empiler(&pile, s[i]);
+            }else if ((sommet(&pile) == '+' || sommet(&pile) == '-' ) && (s[i] == '*' || s[i] == '/')){ //TODO : améliorer la priorité des opérateurs
+                debug("Operateur PRIO \n");
+                // printf("PILE ACTUEL :\n ");
+                // afficherPile(&pile);
+                empiler(&pile, s[i]);
+            }else {
+                //printf(RED "LE TOP EST  : %c\n", sommet(&pile));
+
+                debug("Operateur NON PRIO");
+                depiler(&pile, &elt);
+                afficherElt(&elt);
+                empiler(&pile, s[i]);
+            }
 
             // printf(YELLOW "empilement de %c\n" RESET, s[i]);
-            empiler(&pile, s[i]);
+            // empiler(&pile, s[i]);
 
         }else if(s[i] == '('){
             // printf(YELLOW "empilement de %c\n" RESET, s[i]);
@@ -110,10 +277,11 @@ void translate_to_npi(char s[MAXSTRINGSIZE]){
                 // printf("\nDEPILEMENT \n");
                 depiler(&pile, &elt);
                 // printf("ELT : \n");
-                if (elt == '('){
+                if (elt != '(' && !pilevide(&pile)){
+                    printf("%c", elt);
+                }else{
                     break;
                 }
-                printf("%c", elt);
                 // printf(RED "Ca va continuer ? %d\n" RESET, elt != '(');
             }
             // while (pilevide(&pile) == 0 && sommet(&pile) != '('){
@@ -121,7 +289,7 @@ void translate_to_npi(char s[MAXSTRINGSIZE]){
             //     depiler(&pile, elt);
             //     afficherElt(&elt);
             // }
-        }else if (s[i] <= '9' && s[i] >= '0'){
+        }else if ((s[i] <= '9' && s[i] >= '0') || (s[i] <= 'z' && s[i] >= 'a') || (s[i] <= 'Z' && s[i] >= 'A')){
             // printf("NUMBER\n");
             printf("%c", s[i]);
             // printf(BLUE "AFFICHAGE : %c \n" RESET, s[i]);
@@ -130,14 +298,15 @@ void translate_to_npi(char s[MAXSTRINGSIZE]){
         }
 
 
-
-
         i++;
+        //printf("%d \n", i);
     }
 
-    depiler(&pile, &elt);
-    printf("%c", elt);
-
+    while(!pilevide(&pile))
+    {
+        depiler(&pile, &elt);
+        printf("%c", elt);
+    }
 }
 
 
