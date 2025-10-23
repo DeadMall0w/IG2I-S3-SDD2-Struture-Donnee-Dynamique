@@ -1,10 +1,7 @@
-#ifndef HELPER_H
-#define HELPER_H
+// colors.h
+#ifndef COLORS_H
+#define COLORS_H
 
-#include <stdbool.h>
-
-
-//* Couleurs 
 // Reset
 #define RESET   "\033[0m"
 
@@ -30,24 +27,4 @@
 #define BGYELLOW "\033[43m"
 #define BGBLUE   "\033[44m"
 
-
-//* Fonctions
-
-// Flag global pour activer/désactiver le debug
-bool DEBUG = true;
-
-
-
-// Niveaux de log
-typedef enum {
-    INFO,
-    WARNING,
-    ERROR,
-    DEBUG_LEVEL
-} LogLevel;
-
-
-// Macro pratique pour ne pas écrire file/func/line à chaque fois
-#define LOG(lvl, fmt, ...) log_msg(lvl, __FILE__, __func__, __LINE__, fmt, ##__VA_ARGS__)
-
-#endif // HELPER_H
+#endif // COLORS_H

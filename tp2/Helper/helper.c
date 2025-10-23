@@ -5,6 +5,7 @@
 
 
 
+
 // Fonction principale de log
 void log_msg(LogLevel lvl, const char *file, const char *func, int line, const char *format, ...) {
     if (!DEBUG && lvl == DEBUG_LEVEL)
