@@ -2,7 +2,9 @@
 #include <string.h>
 
 
-typedef int T_Elt; //TAD
+typedef char *T_Elt; //TAD
+typedef char *T_elt; //! car j'ai oublié pas mal de majuscule
+
 
 
 // ou
@@ -15,6 +17,7 @@ typedef int T_Elt; //TAD
 void saisirElt(T_Elt *);
 void afficherElt(T_Elt *);
 void affecterElt(T_Elt *,T_Elt *);
+int Compare(T_Elt *e, T_Elt *e2);
 
 
 

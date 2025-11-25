@@ -13,7 +13,7 @@ Faire la suite des objectifs
 */
 void Test();
 
-int main() {
+int mainBis() {
     printf("Hello, world ! \n\n");
     
     T_maille *maListe = NULL;

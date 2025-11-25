@@ -3,7 +3,7 @@
 
 
 typedef int T_Elt; //TAD
-typedef int T_elt; //! car j'ai oublié pas mal de majuscule
+//typedef int T_Elt; //! car j'ai oublié pas mal de majuscule
 
 
 

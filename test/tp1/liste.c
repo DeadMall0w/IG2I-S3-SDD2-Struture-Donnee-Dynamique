@@ -4,7 +4,7 @@
 #include "color.h"
 
 // todo : mettre le bon prototype
-T_maille *newMaille(T_elt e){
+T_maille *newMaille(T_EltL e){
     T_maille *ptr = malloc(sizeof(T_maille));
     if (ptr == NULL) {
         printf("Allocation mémoire échouée !\n");
@@ -32,7 +32,7 @@ char isEmpty(T_maille *list){
     return list == NULL;
 }
 
-void insererEnTete2(T_maille ** list, T_elt elt){
+void insererEnTete2(T_maille ** list, T_EltL elt){
     T_maille *m = newMaille(elt);
 
     if (isEmpty(*list)){
@@ -56,14 +56,14 @@ int afficherListe(T_maille *list){
     T_maille *m;
     do{
         // printf("%d\n", list->elt);
-        afficherElt(&list->elt);
+        afficherEltL(&list->elt);
         list = list->next;
     } while(list != NULL);
 
     return 1;
 }
 
-T_maille *supprimerElement(T_Elt e, T_maille *maille){
+T_maille *supprimerElement(T_EltL e, T_maille *maille){
     
     if (appartient(e, maille) == 0){
         printf(RED "n'est pas dedans ! \n" RESET);
@@ -76,7 +76,7 @@ T_maille *supprimerElement(T_Elt e, T_maille *maille){
     }
 
     // cas 1 : début
-    if (Compare(&e, &maille->elt) == 0){
+    if (CompareL(&e, &maille->elt) == 0){
         return maille->next;
     }
 
@@ -85,7 +85,7 @@ T_maille *supprimerElement(T_Elt e, T_maille *maille){
     T_maille * a_supp;
     T_maille * scope = maille;
     while (!isEmpty(scope->next)){
-        if (Compare(&e, &scope->next->elt) == 0){
+        if (CompareL(&e, &scope->next->elt) == 0){
             a_supp = scope->next;
             if (scope->next->next == NULL){
                 scope->next = NULL;
@@ -115,7 +115,7 @@ int afficherListeRec(T_maille *start){
         return 1;
     }
 
-    afficherElt(&start->elt);
+    afficherEltL(&start->elt);
     afficherListeRec(start->next);
     
     return 1;
@@ -130,7 +130,7 @@ T_maille * trouverFinListe(T_maille * curr){
     return curr;
 }
 
-T_maille *insererEnFinRec(T_elt *e ,T_maille *list){
+T_maille *insererEnFinRec(T_EltL *e ,T_maille *list){
     if (isEmpty(list)){
         return newMaille(*e);
     } else {
@@ -159,25 +159,25 @@ int tailleListe(T_maille *list){
     return i;   
 }
 
-int appartient(T_elt e,T_maille *start){
+int appartient(T_EltL e,T_maille *start){
     if (isEmpty(start)){
         return 0;
     }
 
     // afficherElt(&start->elt);
-    if (Compare(&start->elt, &e) == 0){
+    if (CompareL(&start->elt, &e) == 0){
         return 1;
     }
     return appartient(e, start->next);
 }
 
-T_maille *insererAvecOrdre(T_elt e, T_maille *list) {
+T_maille *insererAvecOrdre(T_EltL e, T_maille *list) {
     if (appartient(e, list)){
         return list;
     }
     T_maille *maille = newMaille(e);
 
-    if (isEmpty(list) || Compare(&e, &list->elt) < 0) {
+    if (isEmpty(list) || CompareL(&e, &list->elt) < 0) {
         maille->next = list;
         if (list != NULL) {
             list->prev = maille;
@@ -186,7 +186,7 @@ T_maille *insererAvecOrdre(T_elt e, T_maille *list) {
     }
 
     T_maille *curr = list;
-    while (curr->next != NULL && Compare(&e, &curr->next->elt) > 0) {
+    while (curr->next != NULL && CompareL(&e, &curr->next->elt) > 0) {
         curr = curr->next;
     }
 

@@ -1,4 +1,4 @@
-#include "es.h"
+#include "esL.h"
 #include <string.h>
 
 
@@ -61,21 +61,21 @@
 // lorsque T_ELt est une chaine (peut être un jour)
 
 
-void saisirElt(T_Elt *e)
+void saisirEltL(T_EltL *e)
 {
 scanf("%s",*e);
 }
-void afficherElt(T_Elt *e)
+void afficherEltL(T_EltL *e)
 {
 printf("\n%s",*e);
 }
 
 
-void affecterElt(T_Elt *d,T_Elt *s)
+void affecterEltL(T_EltL *d,T_EltL *s)
 {
 strcpy(*d,*s);
 }
 
-int Compare(T_Elt *e, T_Elt *e2) {
+int CompareL(T_EltL *e, T_EltL *e2) {
     return strcmp(*e, *e2);
 }

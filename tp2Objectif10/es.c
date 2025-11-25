@@ -5,11 +5,11 @@
 // lorsque T_ELt est un int  (c'est le case de notre TP)  
 void saisirElt(T_Elt *e)
 {
-scanf("%d",e);
+scanf("%c",e);
 }
 void afficherElt(T_Elt *e)
 {
-printf("\n%d",*e);
+printf("\n%c",*e);
 }
 void affecterElt(T_Elt *d,T_Elt *s)
 {

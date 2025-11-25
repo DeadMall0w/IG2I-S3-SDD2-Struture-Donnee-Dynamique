@@ -1,8 +1,8 @@
-#include "es.h"
+#include "esL.h"
 
 // * objectif 1
 typedef struct maille{
-    T_elt elt;
+    T_EltL elt;
     struct maille * next;
     struct maille * prev;
 }T_maille;
@@ -11,7 +11,7 @@ typedef struct maille{
 
 
 
-T_maille *newMaille(T_elt e);
+T_maille *newMaille(T_EltL e);
 
 
 // * objectif 2
@@ -20,7 +20,7 @@ int afficherListeRec(T_maille *);
 
 // char isEmpty(T_maille *head);
 
-// void addToStart(T_maille ** head, T_elt elt);
+// void addToStart(T_maille ** head, T_EltL elt);
 
 // void displayList(T_maille *head);
 
@@ -28,25 +28,25 @@ int afficherListeRec(T_maille *);
 
 
 // * objectif 3
-T_maille *insererEnTete(T_elt *,T_maille *);
-void insererEnTete2(T_maille **list, T_elt elt);
+T_maille *insererEnTete(T_EltL *,T_maille *);
+void insererEnTete2(T_maille **list, T_EltL elt);
 
 
 //* objectif 4
 T_maille * trouverFinListe(T_maille * curr);
-T_maille *insererEnFinRec(T_elt *,T_maille *);
+T_maille *insererEnFinRec(T_EltL *,T_maille *);
 
 
 //* objectif 5
-int appartient(T_elt , T_maille *);
+int appartient(T_EltL , T_maille *);
 
 
 //* objectif 6
-T_maille *insererAvecOrdre(T_elt , T_maille *);
+T_maille *insererAvecOrdre(T_EltL , T_maille *);
 
 
 // * objectif 7
-T_maille *supprimerElement(T_elt , T_maille *);
+T_maille *supprimerElement(T_EltL , T_maille *);
 
 
 // * objectif 8
